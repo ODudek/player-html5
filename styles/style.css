@@ -33,6 +33,14 @@ video::-webkit-media-controls {
     background: transparent url("../images/player/unmute.png") 0 0 no-repeat;
 }
 
+.full-screen-off {
+    background: transparent url("../images/player/fullscreenexit.png") 0 0 no-repeat;
+}
+
+.full-screen-on {
+    background: transparent url("../images/player/fullscreen.png") 0 0 no-repeat;
+}
+
 input[type=range] {
     -webkit-appearance: none;
     margin: 10px 0;
