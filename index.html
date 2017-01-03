@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Player HTML</title>
+    <link type="text/css" rel="stylesheet" href="styles/style.css">
+    <link type="text/css" rel="stylesheet" href="styles/controls.css">
+</head>
+<body>
+
+    <div id="player" class="custom-video">
+
+        <video id="video"></video>
+
+        <nav class="video-controls">
+            <div id="controls">
+                <ul>
+                    <li>
+                        <button type="button" id="play-pause" class="play button"></button>
+                    </li>
+                    <li>
+                        <div id="time">
+                            <span id="dur-minutes">00:</span>
+                            <span id="dur-seconds">00</span>
+                        </div>
+                    </li>
+                    <li>
+                        <input type="range" id="seek-bar" class="seekbar" value="0"/>
+                    </li>
+                    <li>
+                        <button type="button" id="mute" class="unmute button"></button>
+                    </li>
+                    <li>
+                        <input type="range" id="volume-bar" value="100"/>
+                    </li>
+                    <li>
+                        <button type="button" id="full-screen" class="full-screen-off button"></button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <script src="scripts/jquery-3.1.1.min.js"></script>
+    <script src="scripts/playerSettings.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/setupPlayer.js"></script>
+
+</body>
+</html>
