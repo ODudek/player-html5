@@ -17,6 +17,8 @@ function initializePlayer() {
     $(document).on('DOMContentLoaded', volumeDefault);
     $($controls).hover(showBar, hideBar);
     addSettings();
+    checkIfMuted();
+    checkIfAutoplay();
 }
 
 function playPause() {
@@ -102,6 +104,16 @@ function volume() {
     $($video).prop('volume', updateVolume);
 }
 
+function checkIfMuted() {
+    if (videoSettings[0].mute == true) {
+        $muteBtn.setAttribute('class', 'mute button');
+        $volumeBar.value = 0;
+    } else {
+        $muteBtn.setAttribute('class', 'unmute button');
+        $video.removeAttribute('muted');
+    }
+}
+
 function updateVolume() {
     $video.muted = false;
     $muteBtn.setAttribute('class', 'unmute button');
@@ -126,6 +138,14 @@ function volumeDefault() {
     }
 }
 
+function checkIfAutoplay() {
+    if (videoSettings[0].autoplay == true) {
+        $playPauseBtn.setAttribute('class', 'pause button');
+    } else {
+        $video.removeAttribute('autoplay');
+    }
+}
+
 function hideBar() {
     $($controls).animate({
         opacity: 0
@@ -143,7 +163,7 @@ function addSettings() {
     $($video).attr('width', videoSettings[0].width);
     $($video).attr('height', videoSettings[0].height);
     $($video).attr('autoplay', videoSettings[0].autoplay);
-    $($video).attr('mute', videoSettings[0].mute);
+    $($video).attr('muted', videoSettings[0].mute);
     $($video).attr('poster', videoSettings[0].poster);
     $($source).attr('type', videoSettings[0].type);
     $($source).attr('src', videoSettings[0].videoSrc);
