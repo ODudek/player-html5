@@ -1,3 +1,4 @@
+let SPACE = 32;
 let $playPauseBtn = document.getElementById('play-pause');
 let $muteBtn = document.getElementById('mute');
 let $fullScreenBtn = document.getElementById('full-screen');
@@ -8,14 +9,15 @@ let $durSeconds = document.getElementById('dur-seconds');
 let $controls = document.getElementById('controls');
 
 function initializePlayer() {
+    $($seekBar).on('change', seek);
+    $($video).on('timeupdate', timeUpdate);
     $($playPauseBtn).click(playPause);
     $($muteBtn).click(mute);
     $($fullScreenBtn).click(fullScreen);
-    $($seekBar).on('change', seek);
-    $($video).on('timeupdate', timeUpdate);
     $($volumeBar).on('change', volume);
     $(document).on('DOMContentLoaded', volumeDefault);
     $($controls).hover(showBar, hideBar);
+    $(document).keydown(keys);
     addSettings();
     checkIfMuted();
     checkIfAutoplay();
@@ -158,10 +160,28 @@ function showBar() {
     })
 }
 
+function keys(e) {
+    switch (e.keyCode) {
+        case SPACE:
+            let $playPauseBtnClass = $playPauseBtn.getAttribute('class');
+            if ($playPauseBtnClass == 'play button') {
+                $playPauseBtn.setAttribute('class', 'pause button');
+                $video.play();
+            }
+            else {
+                $playPauseBtn.setAttribute('class', 'play button');
+                $video.pause();
+            }
+            break;
+    }
+}
+
+
 function addSettings() {
     let $source = document.createElement('source');
     $($video).attr('width', videoSettings[0].width);
     $($video).attr('height', videoSettings[0].height);
+    $('.custom-video').width(videoSettings[0].width).height(videoSettings[0].height);
     $($video).attr('autoplay', videoSettings[0].autoplay);
     $($video).attr('muted', videoSettings[0].mute);
     $($video).attr('poster', videoSettings[0].poster);

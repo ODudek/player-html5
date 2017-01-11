@@ -7,8 +7,8 @@ body {
 
 .custom-video {
     position: relative;
-    height: 400px;
-    width: 700px;
+    height: 300px;
+    width: 500px;
     margin: 0 auto;
 }
 
@@ -17,27 +17,27 @@ video::-webkit-media-controls {
 }
 
 .play {
-    background: transparent url('../images/player/play.png') 0 0 no-repeat;
+    background: transparent url('../images/player/icons/play.png') 0 0 no-repeat;
 }
 
 .pause {
-    background: transparent url('../images/player/pause.png') 0 0 no-repeat;
+    background: transparent url('../images/player/icons/pause.png') 0 0 no-repeat;
 }
 
 .mute {
-    background: transparent url("../images/player/mute.png") 0 0 no-repeat;
+    background: transparent url("../images/player/icons/volumeoff.png") 0 0 no-repeat;
 }
 
 .unmute {
-    background: transparent url("../images/player/unmute.png") 0 0 no-repeat;
+    background: transparent url("../images/player/icons/volumeup.png") 0 0 no-repeat;
 }
 
 .full-screen-off {
-    background: transparent url("../images/player/fullscreen.png") 0 0 no-repeat;
+    background: transparent url("../images/player/icons/fullscreen.png") 0 0 no-repeat;
 }
 
 .full-screen-on {
-    background: transparent url("../images/player/fullscreenexit.png") 0 0 no-repeat;
+    background: transparent url("../images/player/icons/fullscreenexit.png") 0 0 no-repeat;
 }
 
 input[type=range] {
