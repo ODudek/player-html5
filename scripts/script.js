@@ -1,4 +1,5 @@
 let SPACE = 32;
+let ESC = 27;
 let $playPauseBtn = document.getElementById('play-pause');
 let $muteBtn = document.getElementById('mute');
 let $fullScreenBtn = document.getElementById('full-screen');
@@ -16,7 +17,8 @@ function initializePlayer() {
     $($fullScreenBtn).click(fullScreen);
     $($volumeBar).on('change', volume);
     $(document).on('DOMContentLoaded', volumeDefault);
-    $($controls).hover(showBar, hideBar);
+    $($controls).mouseover(showBar);
+    $($controls).mouseout(hideBar);
     $(document).keydown(keys);
     addSettings();
     checkIfMuted();
@@ -67,8 +69,14 @@ function fullScreen() {
 }
 
 function seek(time) {
+    $video.pause();
     time = $video.duration * ($seekBar.value / 100);
+    time = parseInt(time);
     $video.currentTime = time;
+    if ($video.pause) {
+        $playPauseBtn.setAttribute('class', 'pause button');
+        $video.play();
+    }
 }
 
 function timeUpdate(value) {
@@ -149,33 +157,32 @@ function checkIfAutoplay() {
 }
 
 function hideBar() {
-    $($controls).animate({
-        opacity: 0
-    })
+    setTimeout(function () {
+        $($controls).animate({
+            opacity: 0,
+        })
+    }, 3000);
+    $($controls).clearQueue();
 }
 
 function showBar() {
     $($controls).animate({
         opacity: 1
-    })
+    }, 'fast')
 }
 
 function keys(e) {
     switch (e.keyCode) {
         case SPACE:
-            let $playPauseBtnClass = $playPauseBtn.getAttribute('class');
-            if ($playPauseBtnClass == 'play button') {
-                $playPauseBtn.setAttribute('class', 'pause button');
-                $video.play();
-            }
-            else {
-                $playPauseBtn.setAttribute('class', 'play button');
-                $video.pause();
-            }
+            playPause();
+            break;
+        case ESC:
+            e.preventDefault();
+            document.webkitExitFullscreen();
+            $fullScreenBtn.setAttribute('class', 'full-screen-off button');
             break;
     }
 }
-
 
 function addSettings() {
     let $source = document.createElement('source');
