@@ -21,7 +21,6 @@ Simple player in html5 and JS
 
 1. Added
     - Tests by jasmine (It's only beginning)
-    - 
     - Removed icon of fullscreen (In fullscreen and miniplayer icon is the same)
     - Used ternary operator and replaced some `if` statements
 2. Bugs
