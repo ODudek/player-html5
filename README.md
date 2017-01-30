@@ -1,5 +1,5 @@
 # Simple HTML5 player
-Simple player in html5 in JS
+Simple player in html5 and JS
 
 #Changlelog 
 ### 1.0.1  
@@ -16,3 +16,19 @@ Simple player in html5 in JS
 3. TODO
     - Fix bugs
     - Add styles for every browser (Safari, Firefox, Opera, IE)
+    
+### 1.0.2
+
+1. Added
+    - Tests by jasmine (It's only beginning)
+    - 
+    - Removed icon of fullscreen (In fullscreen and miniplayer icon is the same)
+    - Used ternary operator and replaced some `if` statements
+2. Bugs
+    - Seeking isn't working every time, because of `timeupdate`. When we will try to seek and `timeupdate` will change at the same time, seeking won't work
+    - Player does not support other browsers
+3. TODO
+    - Add autoplay after end of video
+    - Add buffer bar
+    
+    

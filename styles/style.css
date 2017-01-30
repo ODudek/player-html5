@@ -35,7 +35,7 @@ video::-webkit-media-controls {
 }
 
 .full-screen-on {
-    background: transparent url("../images/player/icons/fullscreenexit.png") 0 0 no-repeat;
+    background: transparent url("../images/player/icons/fullscreen.png") 0 0 no-repeat;
 }
 
 input[type=range] {

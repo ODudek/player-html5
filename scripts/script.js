@@ -8,35 +8,39 @@ let $volumeBar = document.getElementById('volume-bar');
 let $durMinutes = document.getElementById('dur-minutes');
 let $durSeconds = document.getElementById('dur-seconds');
 let $controls = document.getElementById('controls');
+let $player = document.getElementById('player');
 
 function initializePlayer() {
-    $($seekBar).on('change', seek);
-    $($video).on('timeupdate', timeUpdate);
-    $($playPauseBtn).click(playPause);
-    $($muteBtn).click(mute);
-    $($fullScreenBtn).click(fullScreen);
-    $($volumeBar).on('change', volume);
-    $(document).on('DOMContentLoaded', volumeDefault);
-    $($controls).mouseover(showBar);
-    $($controls).mouseout(hideBar);
-    $(document).keydown(keys);
-    addSettings();
-    checkIfMuted();
-    checkIfAutoplay();
+    try {
+        $($seekBar).on('change', seek);
+        $($video).on('timeupdate', timeUpdate);
+        $($playPauseBtn).click(playPause);
+        $($muteBtn).click(mute);
+        $($fullScreenBtn).click(fullScreen);
+        $($volumeBar).on('change', volume);
+        $(document).on('DOMContentLoaded', volumeDefault);
+        $(document).keydown(keys);
+        addSettings();
+        checkIfMuted();
+        checkIfAutoplay();
+    } catch (e) {
+        let $player = document.getElementById('player');
+        $player.innerHTML = '<h1 style="color: #1b1d25; text-align: center">Player HTML5 is not available</h1>';
+    }
 }
+
 
 function playPause() {
     let $playPauseBtnClass = $playPauseBtn.getAttribute('class');
-    if ($playPauseBtnClass == 'play button') {
-        $playPauseBtn.setAttribute('class', 'pause button');
-        $video.play();
-    }
-    else {
-        $playPauseBtn.setAttribute('class', 'play button');
-        $video.pause();
-    }
+    $playPauseBtnClass == 'play button' ? (
+            $playPauseBtn.setAttribute('class', 'pause button'),
+                $video.play()
+        ) :
+        (
+            $playPauseBtn.setAttribute('class', 'play button'),
+                $video.pause()
+        )
 }
-
 
 function mute() {
     if ($video.muted == false) {
@@ -57,15 +61,16 @@ function mute() {
     }
 }
 
+
 function fullScreen() {
     let $fullScreenBtnClass = $fullScreenBtn.getAttribute('class');
-    if ($fullScreenBtnClass == 'full-screen-off button') {
-        $fullScreenBtn.setAttribute('class', 'full-screen-on button');
-        $video.webkitRequestFullscreen();
-    } else {
-        $fullScreenBtn.setAttribute('class', 'full-screen-off button');
-        document.webkitExitFullscreen();
-    }
+    $fullScreenBtnClass == 'full-screen-off button' ?
+        ( $fullScreenBtn.setAttribute('class', 'full-screen-on button'),
+                $video.webkitRequestFullscreen()
+        ) :
+        ($fullScreenBtn.setAttribute('class', 'full-screen-off button'),
+                document.webkitExitFullscreen()
+        )
 }
 
 function seek(time) {
@@ -98,16 +103,8 @@ function checkIfEnded() {
 }
 
 function displayTime(minutes, seconds) {
-    if (minutes < 10) {
-        $durMinutes.innerHTML = '0' + minutes + ':';
-    } else {
-        $durMinutes.innerHTML = minutes + ':';
-    }
-    if (seconds < 10) {
-        $durSeconds.innerHTML = '0' + seconds;
-    } else {
-        $durSeconds.innerHTML = seconds;
-    }
+    minutes < 10 ? $durMinutes.innerHTML = '0' + minutes + ':' : $durMinutes.innerHTML = minutes + ':';
+    seconds < 10 ? $durSeconds.innerHTML = '0' + seconds : $durSeconds.innerHTML = seconds;
 }
 
 function volume() {
@@ -115,13 +112,11 @@ function volume() {
 }
 
 function checkIfMuted() {
-    if (videoSettings[0].mute == true) {
-        $muteBtn.setAttribute('class', 'mute button');
-        $volumeBar.value = 0;
-    } else {
-        $muteBtn.setAttribute('class', 'unmute button');
-        $video.removeAttribute('muted');
-    }
+    videoSettings[0].mute == true ? (
+            $muteBtn.setAttribute('class', 'mute button'),
+                $volumeBar.value = 0) : (
+            $muteBtn.setAttribute('class', 'unmute button'),
+                $video.removeAttribute('muted'))
 }
 
 function updateVolume() {
@@ -149,26 +144,8 @@ function volumeDefault() {
 }
 
 function checkIfAutoplay() {
-    if (videoSettings[0].autoplay == true) {
-        $playPauseBtn.setAttribute('class', 'pause button');
-    } else {
+    videoSettings[0].autoplay == true ? $playPauseBtn.setAttribute('class', 'pause button') :
         $video.removeAttribute('autoplay');
-    }
-}
-
-function hideBar() {
-    setTimeout(function () {
-        $($controls).animate({
-            opacity: 0,
-        })
-    }, 3000);
-    $($controls).clearQueue();
-}
-
-function showBar() {
-    $($controls).animate({
-        opacity: 1
-    }, 'fast')
 }
 
 function keys(e) {
@@ -196,3 +173,4 @@ function addSettings() {
     $($source).attr('src', videoSettings[0].videoSrc);
     $($video).append($source);
 }
+
