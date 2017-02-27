@@ -1,3 +1,16 @@
+require('../styles/controls.css');
+require('../styles/style.css');
+
+let videoSettings = [{
+    width: 700,
+    height: 400,
+    autoplay: false,
+    mute: true,
+    poster: 'images/poster.jpg',
+    videoSrc: './video/example.mp4',
+    type: 'video/mp4'
+}];
+
 let SPACE = 32;
 let ESC = 27;
 let $playPauseBtn = document.getElementById('play-pause');
@@ -7,8 +20,7 @@ let $seekBar = document.getElementById('seek-bar');
 let $volumeBar = document.getElementById('volume-bar');
 let $durMinutes = document.getElementById('dur-minutes');
 let $durSeconds = document.getElementById('dur-seconds');
-let $controls = document.getElementById('controls');
-let $player = document.getElementById('player');
+let $video = document.getElementById('video');
 
 function initializePlayer() {
     try {
@@ -20,12 +32,13 @@ function initializePlayer() {
         $($volumeBar).on('change', volume);
         $(document).on('DOMContentLoaded', volumeDefault);
         $(document).keydown(keys);
-        addSettings();
         checkIfMuted();
         checkIfAutoplay();
+        addSettings();
     } catch (e) {
         let $player = document.getElementById('player');
         $player.innerHTML = '<h1 style="color: #1b1d25; text-align: center">Player HTML5 is not available</h1>';
+        console.log('Error: ', e);
     }
 }
 
@@ -174,3 +187,4 @@ function addSettings() {
     $($video).append($source);
 }
 
+initializePlayer();

@@ -30,4 +30,10 @@ Simple player in html5 and JS
     - Add autoplay after end of video
     - Add buffer bar
     
+### 1.0.3
+
+1. Added
+    - Removed tests by jasmine
+    - Added `webpack`
+    
     
