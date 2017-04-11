@@ -1,7 +1,11 @@
 module.exports = {
-    entry: './scripts/main.js',
+    entry: {
+        main: './scripts/main.js'
+
+    },
     output: {
-        filename: 'dist/bundle.js'
+        path: './dist/',
+        filename: '[name].bundle.js'
     },
     module: {
         loaders: [
@@ -17,7 +21,7 @@ module.exports = {
             },
             {
                 test: /\.(gif|png|jpe?g)$/i,
-                loader: 'file-loader?name=dist/images/[hash].[ext]',
+                loader: 'file-loader?name=../images/[hash].[ext]',
             }
 
         ]

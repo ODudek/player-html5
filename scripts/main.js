@@ -1,6 +1,7 @@
 require('../styles/controls.css');
 require('../styles/style.css');
 
+let $video = document.getElementById('video');
 let videoSettings = [{
     width: 700,
     height: 400,
@@ -10,7 +11,6 @@ let videoSettings = [{
     videoSrc: './video/example.mp4',
     type: 'video/mp4'
 }];
-
 let SPACE = 32;
 let ESC = 27;
 let $playPauseBtn = document.getElementById('play-pause');
@@ -20,21 +20,23 @@ let $seekBar = document.getElementById('seek-bar');
 let $volumeBar = document.getElementById('volume-bar');
 let $durMinutes = document.getElementById('dur-minutes');
 let $durSeconds = document.getElementById('dur-seconds');
-let $video = document.getElementById('video');
+let $controlBar = document.getElementById('controls');
+console.log($controlBar);
 
 function initializePlayer() {
     try {
-        $($seekBar).on('change', seek);
         $($video).on('timeupdate', timeUpdate);
         $($playPauseBtn).click(playPause);
         $($muteBtn).click(mute);
-        $($fullScreenBtn).click(fullScreen);
+        $($fullScreenBtn).click(fullScreenVideo);
         $($volumeBar).on('change', volume);
         $(document).on('DOMContentLoaded', volumeDefault);
         $(document).keydown(keys);
         checkIfMuted();
         checkIfAutoplay();
         addSettings();
+        seeking();
+        ToggleControlBar();
     } catch (e) {
         let $player = document.getElementById('player');
         $player.innerHTML = '<h1 style="color: #1b1d25; text-align: center">Player HTML5 is not available</h1>';
@@ -42,59 +44,76 @@ function initializePlayer() {
     }
 }
 
+function ToggleControlBar() {
+    $($video).on('mouseenter', function () {
+        $('ul').fadeIn('fast');
+    })
+        .on('mouseleave', function () {
+            setTimeout(function () {
+                $('ul').fadeOut('fast');
+            }, 4000);
+        })
+}
+
+function seeking() {
+    let isSeeking = false;
+    $($seekBar).on('mousedown', function () {
+        isSeeking = true;
+        if (isSeeking) {
+            pause();
+            $($seekBar).on('change', seek);
+        }
+    });
+    $($seekBar).on('mouseup', function () {
+        play();
+    });
+}
+function play() {
+    $playPauseBtn.setAttribute('class', 'pause button');
+    $video.play();
+}
+
+function pause() {
+    $playPauseBtn.setAttribute('class', 'play button');
+    $video.pause();
+}
 
 function playPause() {
     let $playPauseBtnClass = $playPauseBtn.getAttribute('class');
-    $playPauseBtnClass == 'play button' ? (
-            $playPauseBtn.setAttribute('class', 'pause button'),
-                $video.play()
-        ) :
-        (
-            $playPauseBtn.setAttribute('class', 'play button'),
-                $video.pause()
-        )
+    $playPauseBtnClass == 'play button' ? play() : pause()
 }
 
 function mute() {
     if ($video.muted == false) {
-        $muteBtn.setAttribute('class', 'mute button');
-        $volumeBar.value = 0;
+        muted();
         $video.muted = true;
     } else {
-        $muteBtn.setAttribute('class', 'unmute button');
-        if (typeof(Storage) !== 'undefined') {
-            let lastVolume = localStorage.getItem('volume');
-            $volumeBar.value = lastVolume;
-            $video.muted = false;
-            return lastVolume;
-        } else {
-            alert('Twoja przegladarka nie wspiera LocalStorage');
-        }
-
+        let lastVolume = localStorage.getItem('volume');
+        $volumeBar.value = lastVolume;
+        notMuted();
+        return lastVolume;
     }
 }
 
-
 function fullScreen() {
+    $fullScreenBtn.setAttribute('class', 'full-screen-on button');
+    $video.webkitRequestFullscreen();
+}
+
+function exitFullScreen() {
+    $fullScreenBtn.setAttribute('class', 'full-screen-off button');
+    document.webkitExitFullscreen();
+}
+
+function fullScreenVideo() {
     let $fullScreenBtnClass = $fullScreenBtn.getAttribute('class');
-    $fullScreenBtnClass == 'full-screen-off button' ?
-        ( $fullScreenBtn.setAttribute('class', 'full-screen-on button'),
-                $video.webkitRequestFullscreen()
-        ) :
-        ($fullScreenBtn.setAttribute('class', 'full-screen-off button'),
-                document.webkitExitFullscreen()
-        )
+    $fullScreenBtnClass == 'full-screen-off button' ? fullScreen() : exitFullScreen();
 }
 
 function seek(time) {
-    $video.pause();
     time = $video.duration * ($seekBar.value / 100);
     time = parseInt(time);
     $video.currentTime = time;
-    if ($video.pause) {
-        $playPauseBtn.setAttribute('class', 'pause button');
-        $video.play();
-    }
 }
 
 function timeUpdate(value) {
@@ -124,12 +143,18 @@ function volume() {
     $($video).prop('volume', updateVolume);
 }
 
+function muted() {
+    $muteBtn.setAttribute('class', 'mute button');
+    $volumeBar.value = 0;
+}
+
+function notMuted() {
+    $muteBtn.setAttribute('class', 'unmute button');
+    $video.removeAttribute('muted');
+}
+
 function checkIfMuted() {
-    videoSettings[0].mute == true ? (
-            $muteBtn.setAttribute('class', 'mute button'),
-                $volumeBar.value = 0) : (
-            $muteBtn.setAttribute('class', 'unmute button'),
-                $video.removeAttribute('muted'))
+    videoSettings[0].mute == true ? mute() : notMuted();
 }
 
 function updateVolume() {
@@ -168,8 +193,7 @@ function keys(e) {
             break;
         case ESC:
             e.preventDefault();
-            document.webkitExitFullscreen();
-            $fullScreenBtn.setAttribute('class', 'full-screen-off button');
+            exitFullScreen();
             break;
     }
 }

@@ -35,5 +35,7 @@ Simple player in html5 and JS
 1. Added
     - Removed tests by jasmine
     - Added `webpack`
+    - Hiding control bar 
+    - seeking fix 
     
     

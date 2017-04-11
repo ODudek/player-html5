@@ -12,38 +12,45 @@
 
         <video id="video"></video>
 
-        <nav class="video-controls">
-            <div id="controls">
-                <ul>
-                    <li>
-                        <button type="button" id="play-pause" class="play button"></button>
-                    </li>
-                    <li>
-                        <div id="time">
-                            <span id="dur-minutes">00:</span>
-                            <span id="dur-seconds">00</span>
+        <div id="controls">
+            <ul>
+                <li>
+                    <button type="button" id="play-pause" class="play button"></button>
+                </li>
+                <li>
+                    <div id="time">
+                        <span id="dur-minutes">00:</span>
+                        <span id="dur-seconds">00</span>
+                    </div>
+                </li>
+                <li>
+                    <input type="range" id="seek-bar" class="seekbar" value="0"/>
+                </li>
+                <li>
+                    <button type="button" id="mute" class="unmute button"></button>
+                </li>
+                <li>
+                    <input type="range" id="volume-bar" value="100"/>
+                </li>
+                <li>
+                    <div id="quality" class="dropdown">
+                        <p>Quality</p>
+                        <div class="dropdown-content">
+                            <a href="#">320p</a>
+                            <a href="#">576p</a>
+                            <a href="#">720p</a>
                         </div>
-                    </li>
-                    <li>
-                        <input type="range" id="seek-bar" class="seekbar" value="0"/>
-                    </li>
-                    <li>
-                        <button type="button" id="mute" class="unmute button"></button>
-                    </li>
-                    <li>
-                        <input type="range" id="volume-bar" value="100"/>
-                    </li>
-                    <li>
-                        <button type="button" id="full-screen" class="full-screen-off button"></button>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" id="full-screen" class="full-screen-off button"></button>
+                </li>
+            </ul>
+        </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="dist/bundle.js"></script>
+
+    <script src="dist/main.bundle.js"></script>
 
 </body>
 </html>
-
