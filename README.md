@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/ODudek/player-html5.png?label=ready&title=Ready)](https://waffle.io/ODudek/player-html5?utm_source=badge)
 # Simple HTML5 player
 Simple player in html5 and JS
 
